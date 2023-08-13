@@ -1,0 +1,163 @@
+        
+      $("#contactForm").validator().on("submit", function (event) {
+          if (event.isDefaultPrevented()) {
+            // handle the invalid form...
+            formError();
+            submitMSG(false, "Did you fill in the form properly?");
+          } else {
+            // everything looks good!
+            event.preventDefault();
+            submitForm();
+          }
+       });
+    
+        function submitForm(){
+          var name = $("#name").val();
+          var email = $("#email").val();
+          var message = $("#message").val();
+          $.ajax({
+              type: "POST",
+              url: "process.php",
+              data: "name=" + name + "&email=" + email + "&message=" + message,
+              success : function(text){
+                  if (text == "success"){
+                      formSuccess();
+                    } else {
+                      formError();
+                      submitMSG(false,text);
+                    }
+                }
+            });
+        }
+        function formSuccess(){
+            $("#contactForm")[0].reset();
+            submitMSG(true, "Message Sent!")
+        }
+    	  function formError(){   
+    	    $("#contactForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+    	        $(this).removeClass();
+    	    });
+    	  }
+        function submitMSG(valid, msg){
+          if(valid){
+            var msgClasses = "h3 text-center fadeInUp animated text-success";
+          } else {
+            var msgClasses = "h3 text-center shake animated text-danger";
+          }
+          $("#msgSubmit").removeClass().addClass(msgClasses).text(msg);
+        }
+    
+
+    
+}(jQuery));
+
+
+
+
+
+
+
+
+
+
+template = render_to_string('main/email_template.html', {
+            'name': request.POST['name'],
+            'email': request.POST['email'],
+            'message': request.POST['message'],
+        })
+
+        email = EmailMessage(
+            request.POST['subject'],
+            template,
+            settings.EMAIL_HOST_USER,
+            ['django.test.website@outlook.com']
+
+        )
+        email.fail_silently = False
+        email.send()
+
+
+
+
+
+<!-- validator -->
+    <script src="{% static 'plugins/js/validator.min.js' %}"></script>
+
+
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+
+
+
+
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+
+
+
+
+# AWS SETTINGS
+
+AWS_ACCESS_KEY_ID = 'AKIASLZHB6GFSQAS6G4O'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'alabdullah.peronal-new'
+AWS_S3_FILE_OVERWRITE = False
+
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+AWS_DEFAULT_ACL = 'public-read'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'static'
+AWS_QUERYSTRING_AUTH = False
+AWS_HEADERS = {
+    'Access-Control-Allow-Origin': '*',
+}
+
+
+
+MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
+
+
+
+image = models.ImageField(null=True, blank=True,
+                              upload_to="images", default="project_defult-min.svg")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+                                <li data-filter=".django" class="wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.2s"><span>Django</span></li>
+                                <li data-filter=".python" class="wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.3s"><span>Python</span></li>
+                                <li data-filter=".java" class="wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.4s"><span>Java</span></li>
+                                <li data-filter=".challenges" class="wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.5s"><span>Coding Challanges</span></li>
