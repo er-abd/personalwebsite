@@ -38,6 +38,8 @@ ALLOWED_HOSTS = [
 
 CSRF_COOKIE_SECURE = False
 
+
+
 CSRF_TRUSTED_ORIGINS = ['https://*.alabdullah.me']
 
 # Application definition
