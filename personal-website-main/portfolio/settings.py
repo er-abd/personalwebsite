@@ -38,7 +38,7 @@ CSRF_COOKIE_SECURE = False
 
 
 
-CSRF_TRUSTED_ORIGINS = ['https://*.alabdullah.me']
+CSRF_TRUSTED_ORIGINS = ['https://*.alabdullah.me', 'https://personalwebsite-production-8a78.up.railway.app']
 
 # Application definition
 
